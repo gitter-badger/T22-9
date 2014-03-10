@@ -14,39 +14,26 @@ namespace TrafficSimulator
         /// You can put roadusers on intersections to make them appear there.
         /// </summary>
         private List<RoadUser> roadUsers;
-        RoadUser yopCar2;
-
 
         public SimulatorForm()
         {
             InitializeComponent();
             roadUsers = new List<RoadUser>();
 
+            // Just some code to show cars on the intersection
+            // Feel free to modify to match your needs.
+            // Hint: You should find a way to let cars / pedestrians travel
+            //       from one intersection to the other....
             RoadUser blueCar = new BlueCar(new Point(60,216), 2);
-            RoadUser yopCar = new GreenSportsCar(new Point(216,60), 4);
-            RoadUser greenSportsCar = new GreenSportsCar(new Point(155, 253), 0);
-            yopCar2 = new BlueSportsCar(new Point(60, 216), 3);
-
-            greenSportsCar.FaceTo(new Point(160, 260));
-
-
-
-            roadUsers.Add(yopCar);
             roadUsers.Add(blueCar);
-            roadUsers.Add(yopCar2);
+            RoadUser greenSportsCar = new GreenSportsCar(new Point(155, 253), 0);
             roadUsers.Add(greenSportsCar);
+            greenSportsCar.FaceTo(new Point(160, 260));
+            intersectionControl1.AddRoadUser(roadUsers[0]);
+            intersectionControl1.AddRoadUser(roadUsers[1]);
 
-            foreach (RoadUser R in roadUsers)
-            {
-                intersectionControl1.AddRoadUser(R);
-                intersectionControl2.AddRoadUser(R);
-            }
-
-            //intersectionControl1.AddRoadUser(roadUsers[0]);
-            //intersectionControl1.AddRoadUser(roadUsers[1]);
-            //intersectionControl1.AddRoadUser(roadUsers[2]);
-            //intersectionControl1.AddRoadUser(roadUsers[3]);
-
+            //Testopstelling: alle lichten op het eerste kruispunt op stop.
+            intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
 
             progressTimer.Start();
         }
@@ -63,11 +50,11 @@ namespace TrafficSimulator
                 roadUser.Move();
             }
 
-            // redraw all intersections
-            intersectionControl1.Invalidate();
-            intersectionControl2.Invalidate();
-            intersectionControl3.Invalidate();
-            intersectionControl4.Invalidate();
+            // update and redraw all intersections
+            intersectionControl1.UpdateIntersection();
+            intersectionControl2.UpdateIntersection();
+            intersectionControl3.UpdateIntersection();
+            intersectionControl4.UpdateIntersection();
         }
 
         private void intersectionControl_TrafficLightClick(object sender, TrafficLightClickEventArgs e)
@@ -84,12 +71,15 @@ namespace TrafficSimulator
             Debug.WriteLine("Clicked traffic light with lane id: " + e.LaneId + ", of intersection: ");
             IntersectionControl intersection = (IntersectionControl)sender;
             TrafficLight trafficLight = intersection.GetTrafficLight(e.LaneId);
-            trafficLight.SwitchTo(SignalState.STOP);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            yopCar2.FaceTo(new Point(yopCar2.Location.X, (yopCar2.Location.Y + 90)));
+            if (trafficLight.State == SignalState.STOP)
+            {
+                trafficLight.SwitchTo(SignalState.GO);
+            }
+            else
+            {
+                trafficLight.SwitchTo(SignalState.STOP);
+            }
+            
         }
     }
 }

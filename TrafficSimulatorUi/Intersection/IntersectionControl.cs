@@ -69,7 +69,6 @@ namespace TrafficSimulatorUi
             trafficLights = new Dictionary<LaneId, TrafficLight>();
             sensors = new Dictionary<LaneId, Sensor>();
             roadUsers = new List<RoadUser>();
-
             IntersectionType = defaultIntersectionType;
         }
 
@@ -92,6 +91,32 @@ namespace TrafficSimulatorUi
                 Invalidate();
             }
         }
+
+
+        public void UpdateIntersection()
+        {
+            foreach (RoadUser r in roadUsers)
+            {
+                
+                foreach (KeyValuePair<LaneId, Sensor> s in sensors)
+                {
+                    if (r.BoundingBox.IntersectsWith(s.Value.BoundingBox))
+                    {
+                        if (GetTrafficLight(s.Key).State == SignalState.STOP)
+                        {
+                            r.Speed = 0;
+                        }
+                        else
+                        {
+                            r.Speed = 2;
+                        }
+                    }
+                }
+            }
+
+            Invalidate();
+        }
+
 
         /// <summary>
         /// Configure the intersection using the given configuration.

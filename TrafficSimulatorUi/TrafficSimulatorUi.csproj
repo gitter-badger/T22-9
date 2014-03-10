@@ -97,6 +97,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Images\Cars\BlueCarImage.png" />
   </ItemGroup>
   <ItemGroup>

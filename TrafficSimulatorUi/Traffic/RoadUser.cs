@@ -204,15 +204,5 @@ namespace TrafficSimulatorUi
         {
             drawingSurface.DrawImageUnscaled(Image, BoundingBox);
         }
-
-        /// <summary>
-        /// Checks if the car is at the end of a intersectionControl
-        /// </summary>
-        public void CheckIC()
-        {
-
-        }
- 
-
     }
 }

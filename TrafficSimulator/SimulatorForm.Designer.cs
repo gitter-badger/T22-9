@@ -34,7 +34,6 @@
             this.intersectionControl3 = new TrafficSimulatorUi.IntersectionControl();
             this.intersectionControl1 = new TrafficSimulatorUi.IntersectionControl();
             this.intersectionControl2 = new TrafficSimulatorUi.IntersectionControl();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // progressTimer
@@ -85,22 +84,11 @@
             this.intersectionControl2.TabIndex = 0;
             this.intersectionControl2.TrafficLightClick += new System.EventHandler<TrafficSimulatorUi.TrafficLightClickEventArgs>(this.intersectionControl_TrafficLightClick);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(830, 204);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Turn";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // SimulatorForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(977, 733);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(800, 800);
             this.Controls.Add(this.intersectionControl4);
             this.Controls.Add(this.intersectionControl3);
             this.Controls.Add(this.intersectionControl1);
@@ -118,7 +106,6 @@
         private TrafficSimulatorUi.IntersectionControl intersectionControl3;
         private TrafficSimulatorUi.IntersectionControl intersectionControl4;
         private System.Windows.Forms.Timer progressTimer;
-        private System.Windows.Forms.Button button1;
 
 
 
