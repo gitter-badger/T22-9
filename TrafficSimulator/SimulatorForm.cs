@@ -20,21 +20,17 @@ namespace TrafficSimulator
             InitializeComponent();
             roadUsers = new List<RoadUser>();
 
-            // Just some code to show cars on the intersection
-            // Feel free to modify to match your needs.
-            // Hint: You should find a way to let cars / pedestrians travel
-            //       from one intersection to the other....
-            RoadUser blueCar = new BlueCar(new Point(60,216), 2);
-            roadUsers.Add(blueCar);
-            RoadUser greenSportsCar = new GreenSportsCar(new Point(155, 253), 0);
-            roadUsers.Add(greenSportsCar);
-            greenSportsCar.FaceTo(new Point(160, 260));
-            intersectionControl1.AddRoadUser(roadUsers[0]);
-            intersectionControl1.AddRoadUser(roadUsers[1]);
+            roadUsers.Add(new BlueCar(new Point(-20, 216), 2));
+            roadUsers.Add(new BlueSportsCar(new Point(-80, 216), 1));
+            roadUsers.Add( new GreenSportsCar(new Point(155, 253), 0));
 
-            //Testopstelling: alle lichten op het eerste kruispunt op stop.
+            foreach (RoadUser r in roadUsers)
+            {
+                intersectionControl1.AddRoadUser(r);
+            }
+
+            // Testing: start all trafficlights on red
             intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
-
             progressTimer.Start();
         }
 
