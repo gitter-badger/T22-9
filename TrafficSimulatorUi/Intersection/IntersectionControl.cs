@@ -97,7 +97,6 @@ namespace TrafficSimulatorUi
         {
             foreach (RoadUser r in roadUsers)
             {
-                
                 foreach (KeyValuePair<LaneId, Sensor> s in sensors)
                 {
                     if (r.BoundingBox.IntersectsWith(s.Value.BoundingBox))
@@ -108,7 +107,7 @@ namespace TrafficSimulatorUi
                         }
                         else
                         {
-                            r.Speed = 2;
+                            r.Speed = r.InitSpeed;
                         }
                     }
                 }

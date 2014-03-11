@@ -37,6 +37,7 @@ namespace TrafficSimulatorUi
         /// the speed (see property for description)
         /// </summary>
         private double speed;
+        private double initSpeed;
 
         /// <summary>
         /// The bounding box of the item.
@@ -73,6 +74,7 @@ namespace TrafficSimulatorUi
             rotatedImageCache = new RotatedImageCache(image);
             Location = location;
             Speed = speed;
+            initSpeed = speed;
             Direction = 0D;
         }
 
@@ -91,6 +93,17 @@ namespace TrafficSimulatorUi
             {
                 speed = value;
                 SetDXAndDY(Speed, Direction);
+            }
+        }
+
+        /// <summary>
+        /// the inital speed of the car.
+        /// </summary>
+        public double InitSpeed
+        {
+            get
+            {
+                return initSpeed;
             }
         }
 
