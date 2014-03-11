@@ -22,6 +22,11 @@ namespace TrafficSimulator
             roadUsers = new List<RoadUser>();
             intersectionControls = new List<IntersectionControl>();
 
+            intersectionControls.Add(intersectionControl1);
+            intersectionControls.Add(intersectionControl2);
+            intersectionControls.Add(intersectionControl3);
+            intersectionControls.Add(intersectionControl4);
+
             roadUsers.Add(new BlueCar(new Point(-20, 216), 2));
             roadUsers.Add(new BlueSportsCar(new Point(-80, 216), 1));
             roadUsers.Add( new GreenSportsCar(new Point(155, 253), 0));
@@ -47,6 +52,11 @@ namespace TrafficSimulator
             {
                 roadUser.Move();
             }
+
+            //intersectionControl1.UpdateIntersection();
+            //intersectionControl2.UpdateIntersection();
+            //intersectionControl3.UpdateIntersection();
+            //intersectionControl4.UpdateIntersection();
 
             // update and redraw all intersections
             foreach (IntersectionControl intersectionControl in intersectionControls)
