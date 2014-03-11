@@ -53,11 +53,6 @@ namespace TrafficSimulator
                 roadUser.Move();
             }
 
-            //intersectionControl1.UpdateIntersection();
-            //intersectionControl2.UpdateIntersection();
-            //intersectionControl3.UpdateIntersection();
-            //intersectionControl4.UpdateIntersection();
-
             // update and redraw all intersections
             foreach (IntersectionControl intersectionControl in intersectionControls)
             {
