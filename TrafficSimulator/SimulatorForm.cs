@@ -14,11 +14,13 @@ namespace TrafficSimulator
         /// You can put roadusers on intersections to make them appear there.
         /// </summary>
         private List<RoadUser> roadUsers;
+        private List<IntersectionControl> intersectionControls;
 
         public SimulatorForm()
         {
             InitializeComponent();
             roadUsers = new List<RoadUser>();
+            intersectionControls = new List<IntersectionControl>();
 
             roadUsers.Add(new BlueCar(new Point(-20, 216), 2));
             roadUsers.Add(new BlueSportsCar(new Point(-80, 216), 1));
@@ -47,10 +49,11 @@ namespace TrafficSimulator
             }
 
             // update and redraw all intersections
-            intersectionControl1.UpdateIntersection();
-            intersectionControl2.UpdateIntersection();
-            intersectionControl3.UpdateIntersection();
-            intersectionControl4.UpdateIntersection();
+            foreach (IntersectionControl intersectionControl in intersectionControls)
+            {
+                intersectionControl.UpdateIntersection();
+            }
+
         }
 
         private void intersectionControl_TrafficLightClick(object sender, TrafficLightClickEventArgs e)
