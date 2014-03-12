@@ -39,6 +39,7 @@ namespace TrafficSimulator
             // Testing: start all trafficlights on red
             intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
             progressTimer.Start();
+            MessageBox.Show("Pieterrr");
         }
 
         private void progressTimer_Tick(object sender, EventArgs e)
