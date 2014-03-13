@@ -60,6 +60,9 @@ namespace TrafficSimulatorUi
         /// </summary>
         private RotatedImageCache rotatedImageCache;
 
+        public Boolean hasDestination = false;
+        public Directions destination;
+
         /// <summary>
         /// Creates a road user
         /// </summary>

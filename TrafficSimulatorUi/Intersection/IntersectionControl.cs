@@ -60,6 +60,7 @@ namespace TrafficSimulatorUi
         /// </summary>
         private List<RoadUser> roadUsers;
 
+        private List<Directions> directions;
         /// <summary>
         /// Create a default intersection control
         /// </summary>
@@ -69,7 +70,10 @@ namespace TrafficSimulatorUi
             trafficLights = new Dictionary<LaneId, TrafficLight>();
             sensors = new Dictionary<LaneId, Sensor>();
             roadUsers = new List<RoadUser>();
+            directions = new List<Directions>();
             IntersectionType = defaultIntersectionType;
+
+
         }
 
         /// <summary>
@@ -92,7 +96,6 @@ namespace TrafficSimulatorUi
             }
         }
 
-
         public void UpdateIntersection()
         {
             foreach (RoadUser r in roadUsers)
@@ -101,6 +104,8 @@ namespace TrafficSimulatorUi
                 {
                     if (r.BoundingBox.IntersectsWith(s.Value.BoundingBox))
                     {
+                        ChooseDirection(r, s);
+
                         if (GetTrafficLight(s.Key).State == SignalState.STOP)
                         {
                             r.Speed = 0;
@@ -109,6 +114,7 @@ namespace TrafficSimulatorUi
                         {
                             r.Speed = r.InitSpeed;
                         }
+                        
                     }
                 }
             }
@@ -116,6 +122,16 @@ namespace TrafficSimulatorUi
             Invalidate();
         }
 
+        public void ChooseDirection(RoadUser roadUser, KeyValuePair<LaneId, Sensor> curLane)
+        {
+            if (!roadUser.hasDestination)
+            {
+                Random rand = new Random();
+                roadUser.destination = curLane.Value.possibleDirections[rand.Next(0, curLane.Value.possibleDirections.Count)];
+                roadUser.hasDestination = true;
+                MessageBox.Show(roadUser.destination.ToString());
+            }
+        }
 
         /// <summary>
         /// Configure the intersection using the given configuration.
@@ -150,6 +166,37 @@ namespace TrafficSimulatorUi
             foreach (LaneId laneId in configuration.LanesWithRailwaySensors)
             {
                 AddSensor(laneId);
+            }
+
+            foreach (LaneId lane in sensors.Keys)
+            {
+                if (lane.ToString().Contains("NORTH"))
+                {
+                    directions.Add(Directions.NORTH);
+                }
+                else if (lane.ToString().Contains("EAST"))
+                {
+                    directions.Add(Directions.EAST);
+                }
+                else if (lane.ToString().Contains("SOUTH"))
+                {
+                    directions.Add(Directions.SOUTH);
+                }
+                else if (lane.ToString().Contains("WEST"))
+                {
+                    directions.Add(Directions.WEST);
+                }
+            }
+
+            foreach (KeyValuePair<LaneId, Sensor> s in sensors)
+            {
+                foreach (Directions d in (Directions[])Enum.GetValues(typeof(Directions)))
+                {
+                    if(!s.Key.ToString().Contains(d.ToString()) && directions.Contains(d) && !s.Value.possibleDirections.Contains(d))
+                    {
+                        s.Value.possibleDirections.Add(d);
+                    }
+                }
             }
         }
 

@@ -76,4 +76,12 @@ namespace TrafficSimulatorUi
         SOUTH_INBOUND_RAILWAY,
         SOUTH_OUTBOUND_RAILWAY
     }
+
+    public enum Directions
+    {
+        NORTH = 0,
+        EAST = 1,
+        SOUTH = 2,
+        WEST = 35
+    }
 }

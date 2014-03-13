@@ -29,7 +29,6 @@ namespace TrafficSimulator
 
             roadUsers.Add(new BlueCar(new Point(-20, 216), 2));
             roadUsers.Add(new BlueSportsCar(new Point(-80, 216), 1));
-            roadUsers.Add( new GreenSportsCar(new Point(155, 253), 0));
 
             foreach (RoadUser r in roadUsers)
             {
@@ -39,7 +38,6 @@ namespace TrafficSimulator
             // Testing: start all trafficlights on red
             intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
             progressTimer.Start();
-            MessageBox.Show("Pieterrr");
         }
 
         private void progressTimer_Tick(object sender, EventArgs e)
