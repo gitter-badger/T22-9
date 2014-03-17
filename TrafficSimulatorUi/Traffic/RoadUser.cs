@@ -60,8 +60,13 @@ namespace TrafficSimulatorUi
         /// </summary>
         private RotatedImageCache rotatedImageCache;
 
+        public Boolean exiting = false;
         public Boolean hasDestination = false;
         public Directions destination;
+        public int movesTillTurn;
+
+        private Point prevLocation;
+        private Rectangle prevBoundingBox;
 
         /// <summary>
         /// Creates a road user
@@ -79,6 +84,7 @@ namespace TrafficSimulatorUi
             Speed = speed;
             initSpeed = speed;
             Direction = 0D;
+
         }
 
         /// <summary>
@@ -194,6 +200,35 @@ namespace TrafficSimulatorUi
         /// </summary>
         public void Move()
         {
+            if (hasDestination && speed > 0)
+            {
+                if (movesTillTurn > 0)
+                {
+                    movesTillTurn--;
+                }
+                else
+                {
+                    switch (destination)
+                    {
+                        case Directions.NORTH:
+                            FaceTo(new Point((int)x, 0));
+                            break;
+                        case Directions.EAST:
+                            FaceTo(new Point(1000, (int)y));
+                            break;
+                        case Directions.SOUTH:
+                            FaceTo(new Point((int)x, 1000));
+                            break;
+                        case Directions.WEST:
+                            FaceTo(new Point(0, (int)y));
+                            break;
+
+                    }
+                    hasDestination = false;
+                }
+            }
+            prevBoundingBox = boundingBox;
+            prevLocation = location;
             x += dx;
             y += dy;
             location.X = Convert.ToInt32(x);
@@ -201,6 +236,35 @@ namespace TrafficSimulatorUi
             boundingBox.X = Convert.ToInt32(x - (Image.Size.Width / 2D));
             boundingBox.Y = Convert.ToInt32(y - (Image.Size.Height / 2D));
         }
+
+        public Rectangle checkMove()
+        {
+            double x2 = x;
+            double y2 = y;
+            x2 += dx;
+            y2 += dy;
+            Point location2 = location;
+            location2.X = Convert.ToInt32(x2);
+            location2.Y = Convert.ToInt32(y2);
+            Rectangle boundingBox2 = boundingBox;
+            boundingBox2.X = Convert.ToInt32(x2 - (Image.Size.Width / 2D));
+            boundingBox2.Y = Convert.ToInt32(y2 - (Image.Size.Height / 2D));
+
+            Rectangle boudingBoxTurn;
+            if (movesTillTurn == 0 && hasDestination)
+            {
+                boudingBoxTurn = new Rectangle((int)x2, (int)y2, boundingBox2.Height, boundingBox2.Width);
+                return boudingBoxTurn;
+            }
+            return boundingBox2;
+        }
+
+        public void UnMove()
+        {
+            location = prevLocation;
+            boundingBox = prevBoundingBox;
+        }
+
 
         /// <summary>
         /// Change the direction so that it faces the given point.

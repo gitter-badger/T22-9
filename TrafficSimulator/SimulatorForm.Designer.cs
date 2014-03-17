@@ -30,10 +30,14 @@
         {
             this.components = new System.ComponentModel.Container();
             this.progressTimer = new System.Windows.Forms.Timer(this.components);
-            this.intersectionControl4 = new TrafficSimulatorUi.IntersectionControl();
-            this.intersectionControl3 = new TrafficSimulatorUi.IntersectionControl();
-            this.intersectionControl1 = new TrafficSimulatorUi.IntersectionControl();
-            this.intersectionControl2 = new TrafficSimulatorUi.IntersectionControl();
+            this.tmrSpawn = new System.Windows.Forms.Timer(this.components);
+            this.tmrTrafficlight = new System.Windows.Forms.Timer(this.components);
+            this.intersectionControl4 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
+            this.intersectionControl3 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
+            this.intersectionControl1 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
+            this.intersectionControl2 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
+            this.intersectionControl5 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
+            this.intersectionControl6 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
             this.SuspendLayout();
             // 
             // progressTimer
@@ -41,10 +45,21 @@
             this.progressTimer.Interval = 40;
             this.progressTimer.Tick += new System.EventHandler(this.progressTimer_Tick);
             // 
+            // tmrSpawn
+            // 
+            this.tmrSpawn.Enabled = true;
+            this.tmrSpawn.Interval = 3000;
+            this.tmrSpawn.Tick += new System.EventHandler(this.tmrSpawn_Tick);
+            // 
+            // tmrTrafficlight
+            // 
+            this.tmrTrafficlight.Interval = 7000;
+            this.tmrTrafficlight.Tick += new System.EventHandler(this.tmrTrafficlight_Tick);
+            // 
             // intersectionControl4
             // 
             this.intersectionControl4.IntersectionType = TrafficSimulatorUi.IntersectionType.TYPE_3;
-            this.intersectionControl4.Location = new System.Drawing.Point(0, 400);
+            this.intersectionControl4.Location = new System.Drawing.Point(400, 400);
             this.intersectionControl4.MaximumSize = new System.Drawing.Size(400, 400);
             this.intersectionControl4.MinimumSize = new System.Drawing.Size(400, 400);
             this.intersectionControl4.Name = "intersectionControl4";
@@ -54,7 +69,7 @@
             // 
             // intersectionControl3
             // 
-            this.intersectionControl3.Location = new System.Drawing.Point(400, 400);
+            this.intersectionControl3.Location = new System.Drawing.Point(0, 400);
             this.intersectionControl3.MaximumSize = new System.Drawing.Size(400, 400);
             this.intersectionControl3.MinimumSize = new System.Drawing.Size(400, 400);
             this.intersectionControl3.Name = "intersectionControl3";
@@ -84,11 +99,33 @@
             this.intersectionControl2.TabIndex = 0;
             this.intersectionControl2.TrafficLightClick += new System.EventHandler<TrafficSimulatorUi.TrafficLightClickEventArgs>(this.intersectionControl_TrafficLightClick);
             // 
+            // intersectionControl5
+            // 
+            this.intersectionControl5.IntersectionType = TrafficSimulatorUi.IntersectionType.TYPE_RAILWAY;
+            this.intersectionControl5.Location = new System.Drawing.Point(800, 0);
+            this.intersectionControl5.MaximumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl5.MinimumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl5.Name = "intersectionControl5";
+            this.intersectionControl5.Size = new System.Drawing.Size(400, 400);
+            this.intersectionControl5.TabIndex = 4;
+            // 
+            // intersectionControl6
+            // 
+            this.intersectionControl6.IntersectionType = TrafficSimulatorUi.IntersectionType.TYPE_RAILWAY;
+            this.intersectionControl6.Location = new System.Drawing.Point(800, 400);
+            this.intersectionControl6.MaximumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl6.MinimumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl6.Name = "intersectionControl6";
+            this.intersectionControl6.Size = new System.Drawing.Size(400, 400);
+            this.intersectionControl6.TabIndex = 5;
+            // 
             // SimulatorForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(800, 800);
+            this.ClientSize = new System.Drawing.Size(1200, 800);
+            this.Controls.Add(this.intersectionControl6);
+            this.Controls.Add(this.intersectionControl5);
             this.Controls.Add(this.intersectionControl4);
             this.Controls.Add(this.intersectionControl3);
             this.Controls.Add(this.intersectionControl1);
@@ -106,6 +143,10 @@
         private TrafficSimulatorUi.IntersectionControl intersectionControl3;
         private TrafficSimulatorUi.IntersectionControl intersectionControl4;
         private System.Windows.Forms.Timer progressTimer;
+        private System.Windows.Forms.Timer tmrSpawn;
+        private System.Windows.Forms.Timer tmrTrafficlight;
+        private TrafficSimulatorUi.IntersectionControl intersectionControl5;
+        private TrafficSimulatorUi.IntersectionControl intersectionControl6;
 
 
 

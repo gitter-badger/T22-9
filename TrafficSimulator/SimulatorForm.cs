@@ -14,11 +14,21 @@ namespace TrafficSimulator
         /// You can put roadusers on intersections to make them appear there.
         /// </summary>
         private List<RoadUser> roadUsers;
-        private List<IntersectionControl> intersectionControls;
+        public List<IntersectionControl> intersectionControls;
+        private Random rand = new Random();
+        private List<Point> entryPoints;
+        private bool trafficLightState;
 
         public SimulatorForm()
         {
             InitializeComponent();
+
+            entryPoints = new List<Point>();
+            entryPoints.Add(new Point(-20, 216));
+            entryPoints.Add(new Point(-20, 244));
+            entryPoints.Add(new Point(156, -20));
+            entryPoints.Add(new Point(184, -20));
+
             roadUsers = new List<RoadUser>();
             intersectionControls = new List<IntersectionControl>();
 
@@ -26,18 +36,14 @@ namespace TrafficSimulator
             intersectionControls.Add(intersectionControl2);
             intersectionControls.Add(intersectionControl3);
             intersectionControls.Add(intersectionControl4);
-
-            roadUsers.Add(new BlueCar(new Point(-20, 216), 2));
-            roadUsers.Add(new BlueSportsCar(new Point(-80, 216), 1));
-
-            foreach (RoadUser r in roadUsers)
-            {
-                intersectionControl1.AddRoadUser(r);
-            }
+            intersectionControls.Add(intersectionControl5);
+            intersectionControls.Add(intersectionControl6);
 
             // Testing: start all trafficlights on red
             intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
             progressTimer.Start();
+            tmrTrafficlight.Start();
+            UpdateLights();
         }
 
         private void progressTimer_Tick(object sender, EventArgs e)
@@ -47,16 +53,28 @@ namespace TrafficSimulator
 
         private void UpdateWorld()
         {
-            foreach (RoadUser roadUser in roadUsers)
-            {
-                roadUser.Move();
-            }
-
             // update and redraw all intersections
             foreach (IntersectionControl intersectionControl in intersectionControls)
             {
                 intersectionControl.UpdateIntersection();
             }
+            bool shouldMove = true;
+            foreach (RoadUser roadUser in roadUsers)
+            {
+                shouldMove = true;
+                foreach (RoadUser otherRoadUser in roadUsers)
+                {
+                    if (roadUser != otherRoadUser && roadUser.checkMove().IntersectsWith(otherRoadUser.BoundingBox))
+                    {
+                        shouldMove = false;
+                    }
+                }
+                if (shouldMove)
+                {
+                    roadUser.Move();
+                }
+            }
+            
 
         }
 
@@ -83,6 +101,105 @@ namespace TrafficSimulator
                 trafficLight.SwitchTo(SignalState.STOP);
             }
             
+        }
+
+
+
+        private void tmrSpawn_Tick(object sender, EventArgs e)
+        {
+
+            int directionIndex = rand.Next(0, 3);
+            
+            BlueCar checkCar = new BlueCar(entryPoints[directionIndex], 0);
+            foreach (RoadUser otherRoadUser in roadUsers)
+            {
+                if (checkCar.BoundingBox.IntersectsWith(otherRoadUser.BoundingBox))
+                {
+                    return;
+                }
+            }
+            int initSpeed = rand.Next(2, 5);
+            switch (rand.Next(0,4))
+            {
+                case 0:
+                    BlueCar bCar = new BlueCar(entryPoints[directionIndex], initSpeed);
+                    roadUsers.Add(bCar);
+                    intersectionControl1.AddRoadUser(bCar);
+                    FaceCar(bCar, directionIndex);
+                    break;
+                case 1:
+                    BlueSportsCar bsCar = new BlueSportsCar(entryPoints[directionIndex], initSpeed);
+                    roadUsers.Add(bsCar);
+                    intersectionControl1.AddRoadUser(bsCar);
+                    FaceCar(bsCar, directionIndex);
+                    break;
+                case 2:
+                    GreenSportsCar gCar = new GreenSportsCar(entryPoints[directionIndex], initSpeed);
+                    roadUsers.Add(gCar);
+                    intersectionControl1.AddRoadUser(gCar);
+                    FaceCar(gCar, directionIndex);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void FaceCar(RoadUser rUser, int directionIndex)
+        {
+            switch (directionIndex)
+            {
+                case 2:
+                    rUser.FaceTo(new Point(rUser.Location.X, 1000));
+                    break;
+                case 3:
+                    rUser.FaceTo(new Point(rUser.Location.X, 1000));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void UpdateLights()
+        {
+            foreach (LaneId lane in (LaneId[])Enum.GetValues(typeof(LaneId)))
+            {
+                foreach (IntersectionControl ic in intersectionControls)
+                {
+                    TrafficLight light = ic.GetTrafficLight(lane);
+
+                    if (light != null && trafficLightState)
+                    {
+                        if ((lane.ToString().Contains("NORTH") || lane.ToString().Contains("SOUTH")) && !lane.ToString().Contains("PAVEMENT"))
+                        {
+                            light.SwitchTo(SignalState.GO);
+                        }
+                        else
+                        {
+                            light.SwitchTo(SignalState.STOP);
+                        }
+                    }
+                    else if (light != null)
+                    {
+                        if ((lane.ToString().Contains("EAST") || lane.ToString().Contains("WEST")) && !lane.ToString().Contains("PAVEMENT"))
+                        {
+                            light.SwitchTo(SignalState.GO);
+                        }
+                        else
+                        {
+                            light.SwitchTo(SignalState.STOP);
+                        }
+                    }
+                }
+                
+            }
+
+
+            trafficLightState = !trafficLightState;
+        }
+
+        private void tmrTrafficlight_Tick(object sender, EventArgs e)
+        {
+            UpdateLights();
         }
     }
 }

@@ -64,7 +64,13 @@ namespace TrafficSimulatorUi
         /// <summary>
         /// Create a default intersection control
         /// </summary>
-        public IntersectionControl()
+        Random rand = new Random();
+        List<IntersectionControl> Controls;
+
+        private int[] lanesLeftTurn = new int[] { 120, 148 };
+        private int[] lanesRightTurn = new int[] { 62, 90 };
+
+        public IntersectionControl(List<IntersectionControl> controls)
         {
             InitializeComponent();
             trafficLights = new Dictionary<LaneId, TrafficLight>();
@@ -72,8 +78,7 @@ namespace TrafficSimulatorUi
             roadUsers = new List<RoadUser>();
             directions = new List<Directions>();
             IntersectionType = defaultIntersectionType;
-
-
+            Controls = controls;
         }
 
         /// <summary>
@@ -105,7 +110,7 @@ namespace TrafficSimulatorUi
                     if (r.BoundingBox.IntersectsWith(s.Value.BoundingBox))
                     {
                         ChooseDirection(r, s);
-
+                        r.exiting = true;
                         if (GetTrafficLight(s.Key).State == SignalState.STOP)
                         {
                             r.Speed = 0;
@@ -117,21 +122,146 @@ namespace TrafficSimulatorUi
                         
                     }
                 }
+
+                if (r.exiting)
+                {
+                    if (r.BoundingBox.Left < 0 || r.BoundingBox.Right > 400 || r.BoundingBox.Top < 0 || r.BoundingBox.Bottom > 400)
+                    {
+                        switch (r.destination)
+                        {
+                            case Directions.NORTH:
+                                switch (intersectionType)
+	                            {
+                                    case IntersectionType.TYPE_1:
+                                        CarTransition(r, Controls[1]);
+                                        break;
+                                    case IntersectionType.TYPE_3:
+                                        break;
+                                    default:
+                                        break;
+	                            }
+                                break;
+                            case Directions.EAST:
+                                switch (intersectionType)
+	                            {
+                                    case IntersectionType.TYPE_1:
+                                        break;
+                                    case IntersectionType.TYPE_2:
+                                        break;
+                                    case IntersectionType.TYPE_3:
+                                        break;
+                                    case IntersectionType.TYPE_4:
+                                        break;
+                                    default:
+                                        break;
+	                            }
+                                break;
+                            case Directions.SOUTH:
+                                switch (intersectionType)
+                                {
+                                    case IntersectionType.TYPE_2:
+                                        break;
+                                    case IntersectionType.TYPE_4:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            case Directions.WEST:
+                                switch (intersectionType)
+                                {
+                                    case IntersectionType.TYPE_RAILWAY:
+                                        break;
+                                    case IntersectionType.TYPE_3:
+                                        break;
+                                    case IntersectionType.TYPE_4:
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
 
             Invalidate();
+        }
+
+        private void CarTransition(RoadUser user, IntersectionControl control)
+        {
         }
 
         public void ChooseDirection(RoadUser roadUser, KeyValuePair<LaneId, Sensor> curLane)
         {
             if (!roadUser.hasDestination)
             {
-                Random rand = new Random();
                 roadUser.destination = curLane.Value.possibleDirections[rand.Next(0, curLane.Value.possibleDirections.Count)];
+                int movesLeft = CalcMovesTillTurn(roadUser) / (int)roadUser.InitSpeed;
+                if (movesLeft > 0)
+                {
+                    roadUser.movesTillTurn = movesLeft;
+                }
                 roadUser.hasDestination = true;
-                MessageBox.Show(roadUser.destination.ToString());
             }
         }
+
+        private int CalcMovesTillTurn(RoadUser roadUser)
+        {
+            if (roadUser.Location.X < 100) //WEST
+            {
+                switch (roadUser.destination)
+                {
+                    case Directions.NORTH:
+                        return lanesLeftTurn[rand.Next(0, 2)];
+                    case Directions.SOUTH:
+                        return lanesRightTurn[rand.Next(0, 2)];
+                    default:
+                        return 50;
+                }
+            }
+            else if (roadUser.Location.Y < 100) //NORTH
+            {
+                switch (roadUser.destination)
+                {
+                    case Directions.EAST:
+                        return lanesLeftTurn[rand.Next(0, 2)];
+                    case Directions.WEST:
+                        return lanesRightTurn[rand.Next(0, 2)];
+                    default:
+                        return 50;
+                }
+            }
+            else if (roadUser.Location.X > 200) //EAST
+            {
+                switch (roadUser.destination)
+                {
+                    case Directions.NORTH:
+                        return lanesRightTurn[rand.Next(0, 2)];
+                    case Directions.SOUTH:
+                        return lanesLeftTurn[rand.Next(0, 2)];
+                    default:
+                        return 50;
+                }
+            }
+            else if (roadUser.Location.Y > 200) //SOUTH
+            {
+                switch (roadUser.destination)
+                {
+                    case Directions.EAST:
+                        return lanesRightTurn[rand.Next(0, 2)];
+                    case Directions.WEST:
+                        return lanesLeftTurn[rand.Next(0, 2)];
+                    default:
+                        return 50;
+                }
+            }
+            return 50;
+        }
+
+        
 
         /// <summary>
         /// Configure the intersection using the given configuration.

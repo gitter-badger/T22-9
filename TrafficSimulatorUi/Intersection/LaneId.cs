@@ -84,4 +84,10 @@ namespace TrafficSimulatorUi
         SOUTH = 2,
         WEST = 35
     }
+
+    public enum TurningDirection
+    {
+        LEFT,
+        RIGHT
+    }
 }
