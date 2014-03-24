@@ -119,7 +119,7 @@ namespace TrafficSimulator
                 }
             }
             int initSpeed = rand.Next(2, 5);
-            switch (rand.Next(0,4))
+            switch (rand.Next(0,5))
             {
                 case 0:
                     BlueCar bCar = new BlueCar(entryPoints[directionIndex], initSpeed);
@@ -138,6 +138,12 @@ namespace TrafficSimulator
                     roadUsers.Add(gCar);
                     intersectionControl1.AddRoadUser(gCar);
                     FaceCar(gCar, directionIndex);
+                    break;
+                case 3:
+                    RedSportsCar rsCar = new RedSportsCar(entryPoints[directionIndex], initSpeed);
+                    roadUsers.Add(rsCar);
+                    intersectionControl1.AddRoadUser(rsCar);
+                    FaceCar((rsCar), directionIndex);
                     break;
                 default:
                     break;
