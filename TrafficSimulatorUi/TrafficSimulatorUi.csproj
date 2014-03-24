@@ -78,6 +78,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Sensor\SingleLaneDriverSensor.cs" />
+    <Compile Include="Traffic\Pedestrian.cs" />
     <Compile Include="Traffic\RedSportsCar.cs" />
     <Compile Include="Traffic\RoadUser.cs" />
     <Compile Include="Orientation.cs" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <None Include="Images\Cars\RedSportsCarImage.png" />
     <Content Include="Images\Intersections\IntersectionTypeRailway.png" />
+    <Content Include="Images\Pedestrians\BluePedestrian.png" />
     <Content Include="Traffic\PedestriansTODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

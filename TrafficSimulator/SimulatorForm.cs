@@ -38,9 +38,13 @@ namespace TrafficSimulator
             intersectionControls.Add(intersectionControl4);
             intersectionControls.Add(intersectionControl5);
             intersectionControls.Add(intersectionControl6);
+            
+            // Testing: force add pedestrian (he is a bit fat)
+            Pedestrian testPed = new Pedestrian(new Point(-20, 133), 2);
+            intersectionControl1.AddRoadUser(testPed);
+            roadUsers.Add(testPed);
 
-            // Testing: start all trafficlights on red
-            intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
+
             progressTimer.Start();
             tmrTrafficlight.Start();
             UpdateLights();

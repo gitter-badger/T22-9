@@ -73,6 +73,16 @@ namespace TrafficSimulatorUi.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BluePedestrian {
+            get {
+                object obj = ResourceManager.GetObject("BluePedestrian", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BlueSportsCarImage {
             get {
                 object obj = ResourceManager.GetObject("BlueSportsCarImage", resourceCulture);
