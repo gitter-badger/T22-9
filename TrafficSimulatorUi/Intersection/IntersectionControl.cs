@@ -59,13 +59,14 @@ namespace TrafficSimulatorUi
         /// The road users will be drawn to the control when the control is invalidated.
         /// </summary>
         private List<RoadUser> roadUsers;
+        public List<RoadUser> globalRoadUsers;
 
         private List<Directions> directions;
         /// <summary>
         /// Create a default intersection control
         /// </summary>
         Random rand = new Random();
-        List<IntersectionControl> Controls;
+        public List<IntersectionControl> Controls = new List<IntersectionControl>();
 
         private int[] lanesLeftTurn = new int[] { 120, 148 };
         private int[] lanesRightTurn = new int[] { 62, 90 };
@@ -78,7 +79,7 @@ namespace TrafficSimulatorUi
             roadUsers = new List<RoadUser>();
             directions = new List<Directions>();
             IntersectionType = defaultIntersectionType;
-            Controls = controls;
+            this.Controls = controls;
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace TrafficSimulatorUi
                     }
                 }
 
-                if (r.exiting)
+                if (r.exiting && !r.exited)
                 {
                     if (r.BoundingBox.Left < 0 || r.BoundingBox.Right > 400 || r.BoundingBox.Top < 0 || r.BoundingBox.Bottom > 400)
                     {
@@ -133,9 +134,10 @@ namespace TrafficSimulatorUi
                                 switch (intersectionType)
 	                            {
                                     case IntersectionType.TYPE_1:
-                                        CarTransition(r, Controls[1]);
+                                        CarTransition(r, Controls[0]);
                                         break;
                                     case IntersectionType.TYPE_3:
+                                        CarTransition(r, Controls[1]);
                                         break;
                                     default:
                                         break;
@@ -145,12 +147,16 @@ namespace TrafficSimulatorUi
                                 switch (intersectionType)
 	                            {
                                     case IntersectionType.TYPE_1:
+                                        CarTransition(r, Controls[3]);
                                         break;
                                     case IntersectionType.TYPE_2:
+                                        CarTransition(r, Controls[1]);
                                         break;
                                     case IntersectionType.TYPE_3:
+                                        CarTransition(r, Controls[5]);
                                         break;
                                     case IntersectionType.TYPE_4:
+                                        CarTransition(r, Controls[4]);
                                         break;
                                     default:
                                         break;
@@ -160,8 +166,10 @@ namespace TrafficSimulatorUi
                                 switch (intersectionType)
                                 {
                                     case IntersectionType.TYPE_2:
+                                        CarTransition(r, Controls[2]);
                                         break;
                                     case IntersectionType.TYPE_4:
+                                        CarTransition(r, Controls[3]);
                                         break;
                                     default:
                                         break;
@@ -171,10 +179,13 @@ namespace TrafficSimulatorUi
                                 switch (intersectionType)
                                 {
                                     case IntersectionType.TYPE_RAILWAY:
+                                        CarTransition(r, Controls[4]);
                                         break;
                                     case IntersectionType.TYPE_3:
+                                        CarTransition(r, Controls[2]);
                                         break;
                                     case IntersectionType.TYPE_4:
+                                        CarTransition(r, Controls[0]);
                                         break;
                                     default:
                                         break;
@@ -185,13 +196,54 @@ namespace TrafficSimulatorUi
                         }
                     }
                 }
+                else if (r.exited)
+                {
+                    //TODO: remove when out of bounds
+                }
             }
 
             Invalidate();
         }
 
-        private void CarTransition(RoadUser user, IntersectionControl control)
+        private void CarTransition(RoadUser roadUser, IntersectionControl destinationControl)
         {
+            roadUser.exited = true;
+            Point spawn = new Point(0, 0);
+            switch (roadUser.destination)
+            {
+                case Directions.NORTH:
+                    spawn = new Point(roadUser.Location.X +0, 400 + roadUser.BoundingBox.Height / 2);
+                    break;
+                case Directions.EAST:
+                    spawn = new Point(0 - roadUser.BoundingBox.Width / 2, roadUser.Location.Y +0);
+                    break;
+                case Directions.SOUTH:
+                    spawn = new Point(roadUser.Location.X +0, 0 - roadUser.BoundingBox.Height / 2);
+                    break;
+                case Directions.WEST:
+                    spawn = new Point(400 + roadUser.BoundingBox.Width / 2, roadUser.Location.Y + 0);
+                    break;
+                default:
+                    break;
+            }
+            if (roadUser is BlueCar)
+            {
+                BlueCar car = new BlueCar(spawn, roadUser.InitSpeed+0) { Direction = roadUser.Direction+0 };
+                destinationControl.AddRoadUser(car);
+                globalRoadUsers.Add(car);
+            }
+            else if (roadUser is BlueSportsCar)
+            {
+                BlueSportsCar car = new BlueSportsCar(spawn, roadUser.InitSpeed+0) { Direction = roadUser.Direction+0 };
+                destinationControl.AddRoadUser(car);
+                globalRoadUsers.Add(car);
+            }
+            else if (roadUser is GreenSportsCar)
+            {
+                GreenSportsCar car = new GreenSportsCar(spawn, roadUser.InitSpeed+0) { Direction = roadUser.Direction+0 };
+                destinationControl.AddRoadUser(car);
+                globalRoadUsers.Add(car);
+            }
         }
 
         public void ChooseDirection(RoadUser roadUser, KeyValuePair<LaneId, Sensor> curLane)

@@ -13,7 +13,7 @@ namespace TrafficSimulator
         /// List to keep track of all road users.
         /// You can put roadusers on intersections to make them appear there.
         /// </summary>
-        private List<RoadUser> roadUsers;
+        public List<RoadUser> roadUsers;
         public List<IntersectionControl> intersectionControls;
         private Random rand = new Random();
         private List<Point> entryPoints;
@@ -38,6 +38,19 @@ namespace TrafficSimulator
             intersectionControls.Add(intersectionControl4);
             intersectionControls.Add(intersectionControl5);
             intersectionControls.Add(intersectionControl6);
+
+            intersectionControl1.Controls = intersectionControls;
+            intersectionControl2.Controls = intersectionControls;
+            intersectionControl3.Controls = intersectionControls;
+            intersectionControl4.Controls = intersectionControls;
+            intersectionControl5.Controls = intersectionControls;
+            intersectionControl6.Controls = intersectionControls;
+            intersectionControl1.globalRoadUsers = roadUsers;
+            intersectionControl2.globalRoadUsers = roadUsers;
+            intersectionControl3.globalRoadUsers = roadUsers;
+            intersectionControl4.globalRoadUsers = roadUsers;
+            intersectionControl5.globalRoadUsers = roadUsers;
+            intersectionControl6.globalRoadUsers = roadUsers;
 
             // Testing: start all trafficlights on red
             intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
