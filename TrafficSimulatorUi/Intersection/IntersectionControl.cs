@@ -104,6 +104,7 @@ namespace TrafficSimulatorUi
 
         public void UpdateIntersection()
         {
+            bool shouldMove = true;
             foreach (RoadUser r in roadUsers)
             {
                 foreach (KeyValuePair<LaneId, Sensor> s in sensors)
@@ -112,7 +113,7 @@ namespace TrafficSimulatorUi
                     {
                         ChooseDirection(r, s);
                         r.exiting = true;
-                        if (GetTrafficLight(s.Key).State == SignalState.STOP)
+                        if (GetTrafficLight(s.Key).State == SignalState.STOP || GetTrafficLight(s.Key).State == SignalState.CLEAR_CROSSING)
                         {
                             r.Speed = 0;
                         }
@@ -122,6 +123,19 @@ namespace TrafficSimulatorUi
                         }
                         
                     }
+                }
+
+                shouldMove = true;
+                foreach (RoadUser otherRoadUser in roadUsers)
+                {
+                    if (r != otherRoadUser && r.checkMove().IntersectsWith(otherRoadUser.BoundingBox))
+                    {
+                        shouldMove = false;
+                    }
+                }
+                if (shouldMove)
+                {
+                    r.Move();
                 }
 
                 if (r.exiting && !r.exited)
@@ -198,7 +212,18 @@ namespace TrafficSimulatorUi
                 }
                 else if (r.exited)
                 {
-                    //TODO: remove when out of bounds
+                    if (r.BoundingBox.Left > 400 || r.BoundingBox.Right < 0 || r.BoundingBox.Top > 400 || r.BoundingBox.Bottom < 0)
+                    {
+                        r.remove = true;
+                    }
+                }
+            }
+
+            for (int i = 0; i < roadUsers.Count; i++)
+            {
+                if (roadUsers[i].remove)
+                {
+                    roadUsers.RemoveAt(i);
                 }
             }
 

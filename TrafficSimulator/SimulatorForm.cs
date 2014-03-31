@@ -71,24 +71,6 @@ namespace TrafficSimulator
             {
                 intersectionControl.UpdateIntersection();
             }
-            bool shouldMove = true;
-            foreach (RoadUser roadUser in roadUsers)
-            {
-                shouldMove = true;
-                foreach (RoadUser otherRoadUser in roadUsers)
-                {
-                    if (roadUser != otherRoadUser && roadUser.checkMove().IntersectsWith(otherRoadUser.BoundingBox))
-                    {
-                        shouldMove = false;
-                    }
-                }
-                if (shouldMove)
-                {
-                    roadUser.Move();
-                }
-            }
-            
-
         }
 
         private void intersectionControl_TrafficLightClick(object sender, TrafficLightClickEventArgs e)
@@ -132,6 +114,23 @@ namespace TrafficSimulator
                 }
             }
             int initSpeed = rand.Next(2, 5);
+            //random intersection > random weg > random auto
+            /*switch (rand.Next(0,6))
+            {
+                case 0:
+
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }*/
             switch (rand.Next(0,4))
             {
                 case 0:
