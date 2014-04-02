@@ -606,6 +606,7 @@ namespace TrafficSimulatorUi
                 Sensor sensor = pair.Value;
                 if (sensor.BoundingBox.Contains(e.Location))
                 {
+                    Debug.WriteLine(sensor.ToString() + sensor.Location.ToString());
                     OnSensorClick(new SensorClickEventArgs(pair.Key));
                 }
             }
