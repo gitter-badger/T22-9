@@ -71,9 +71,9 @@ namespace TrafficSimulatorUi
         public List<IntersectionControl> Controls = new List<IntersectionControl>();
 
         private int[] lanesLeftTurn = new int[] { 120, 148 };
-        private int[] lanesRightTurn = new int[] { 62, 90 };
+        private int[] lanesRightTurn = new int[] { 58, 86 };
 
-        public IntersectionControl(List<IntersectionControl> controls)
+        public IntersectionControl()
         {
             InitializeComponent();
             trafficLights = new Dictionary<LaneId, TrafficLight>();
@@ -81,7 +81,7 @@ namespace TrafficSimulatorUi
             roadUsers = new List<RoadUser>();
             directions = new List<Directions>();
             IntersectionType = defaultIntersectionType;
-            this.Controls = controls;
+            
         }
 
         /// <summary>
@@ -111,19 +111,21 @@ namespace TrafficSimulatorUi
             {
                 foreach (KeyValuePair<LaneId, Sensor> s in sensors)
                 {
-                    if (r.BoundingBox.IntersectsWith(s.Value.BoundingBox))
+                    if (r.userMode == s.Value.sensorMode)
                     {
-                        ChooseDirection(r, s);
-                        r.exiting = true;
-                        if (GetTrafficLight(s.Key).State == SignalState.STOP || GetTrafficLight(s.Key).State == SignalState.CLEAR_CROSSING)
+                        if (r.BoundingBox.IntersectsWith(s.Value.BoundingBox))
                         {
-                            r.Speed = 0;
+                            ChooseDirection(r, s);
+                            r.exiting = true;
+                            if (GetTrafficLight(s.Key).State == SignalState.STOP || GetTrafficLight(s.Key).State == SignalState.CLEAR_CROSSING)
+                            {
+                                r.Speed = 0;
+                            }
+                            else
+                            {
+                                r.Speed = r.InitSpeed;
+                            }
                         }
-                        else
-                        {
-                            r.Speed = r.InitSpeed;
-                        }
-                        
                     }
                 }
 
@@ -289,7 +291,7 @@ namespace TrafficSimulatorUi
 
         private int CalcMovesTillTurn(RoadUser roadUser)
         {
-            if (roadUser.Location.X < 100) //WEST
+            if (roadUser.origin == Directions.WEST) //WEST
             {
                 switch (roadUser.destination)
                 {
@@ -298,10 +300,10 @@ namespace TrafficSimulatorUi
                     case Directions.SOUTH:
                         return lanesRightTurn[rand.Next(0, 2)];
                     default:
-                        return 50;
+                        return 5;
                 }
             }
-            else if (roadUser.Location.Y < 100) //NORTH
+            else if (roadUser.origin == Directions.NORTH) //NORTH
             {
                 switch (roadUser.destination)
                 {
@@ -310,10 +312,10 @@ namespace TrafficSimulatorUi
                     case Directions.WEST:
                         return lanesRightTurn[rand.Next(0, 2)];
                     default:
-                        return 50;
+                        return 5;
                 }
             }
-            else if (roadUser.Location.X > 200) //EAST
+            else if (roadUser.origin == Directions.EAST) //EAST
             {
                 switch (roadUser.destination)
                 {
@@ -322,10 +324,10 @@ namespace TrafficSimulatorUi
                     case Directions.SOUTH:
                         return lanesLeftTurn[rand.Next(0, 2)];
                     default:
-                        return 50;
+                        return 5;
                 }
             }
-            else if (roadUser.Location.Y > 200) //SOUTH
+            else if (roadUser.origin == Directions.SOUTH) //SOUTH
             {
                 switch (roadUser.destination)
                 {
@@ -334,7 +336,7 @@ namespace TrafficSimulatorUi
                     case Directions.WEST:
                         return lanesLeftTurn[rand.Next(0, 2)];
                     default:
-                        return 50;
+                        return 5;
                 }
             }
             return 50;
@@ -617,6 +619,7 @@ namespace TrafficSimulatorUi
                     Debug.WriteLine("dest: " + roadUser.destination.ToString() + " MovesTillTurn: " + roadUser.movesTillTurn + " bbox: " + roadUser.BoundingBox.X + ", " + roadUser.BoundingBox.Y + ", " + roadUser.BoundingBox.Width + ", " + roadUser.BoundingBox.Height);
                 }
             }
+            Debug.WriteLine("x:" + e.X + " y:" + e.Y);
         }
 
         /// <summary>

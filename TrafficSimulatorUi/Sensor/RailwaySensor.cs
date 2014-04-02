@@ -29,6 +29,7 @@ namespace TrafficSimulatorUi
             : base(location, width, height, orientation)
         {
             backgroundBrush = new SolidBrush(Color.FromArgb(66, 33, 11));
+            sensorMode = RoadUserMode.RAIL;
         }
 
         /// <summary>

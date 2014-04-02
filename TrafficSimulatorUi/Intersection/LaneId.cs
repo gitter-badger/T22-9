@@ -90,4 +90,11 @@ namespace TrafficSimulatorUi
         LEFT,
         RIGHT
     }
+
+    public enum RoadUserMode
+    {
+        ROAD,
+        PAVEMENT,
+        RAIL
+    }
 }

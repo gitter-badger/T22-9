@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace TrafficSimulatorUi
 {
@@ -59,17 +60,19 @@ namespace TrafficSimulatorUi
         /// Cache of rotated images
         /// </summary>
         private RotatedImageCache rotatedImageCache;
-
+        
         public Boolean exiting = false;
         public Boolean exited = false;
         public Boolean remove = false;
         public Boolean hasDestination = false;
         public Directions destination;
+        public Directions origin;
         public int movesTillTurn;
 
         private Point prevLocation;
         private Rectangle prevBoundingBox;
 
+        public RoadUserMode userMode;
         /// <summary>
         /// Creates a road user
         /// </summary>
@@ -86,7 +89,23 @@ namespace TrafficSimulatorUi
             Speed = speed;
             initSpeed = speed;
             Direction = 0D;
-
+            if(location.X <= 0)
+            {
+                origin = Directions.WEST;
+            }
+            if (location.X >= 400)
+            {
+                origin = Directions.EAST;
+            }
+            if (location.Y <= 0)
+            {
+                origin = Directions.NORTH;
+            }
+            if (location.Y >= 400)
+            {
+                origin = Directions.WEST;
+            }
+             
         }
 
         /// <summary>

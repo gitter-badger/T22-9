@@ -10,6 +10,7 @@ namespace TrafficSimulatorUi
         public BlueSportsCar(Point location, double speed)
             : base(location, speed, Properties.Resources.BlueSportsCarImage)
         {
+            userMode = RoadUserMode.ROAD;
         }
     }
 }
