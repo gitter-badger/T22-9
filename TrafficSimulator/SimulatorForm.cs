@@ -13,7 +13,7 @@ namespace TrafficSimulator
         /// List to keep track of all road users.
         /// You can put roadusers on intersections to make them appear there.
         /// </summary>
-        private List<RoadUser> roadUsers;
+        public List<RoadUser> roadUsers;
         public List<IntersectionControl> intersectionControls;
         private Random rand = new Random();
         private List<Point> entryPoints;
@@ -38,13 +38,22 @@ namespace TrafficSimulator
             intersectionControls.Add(intersectionControl4);
             intersectionControls.Add(intersectionControl5);
             intersectionControls.Add(intersectionControl6);
-            
-            // Testing: force add pedestrian (he is a bit fat)
-            Pedestrian testPed = new Pedestrian(new Point(-20, 133), 2);
-            intersectionControl1.AddRoadUser(testPed);
-            roadUsers.Add(testPed);
 
+            intersectionControl1.Controls = intersectionControls;
+            intersectionControl2.Controls = intersectionControls;
+            intersectionControl3.Controls = intersectionControls;
+            intersectionControl4.Controls = intersectionControls;
+            intersectionControl5.Controls = intersectionControls;
+            intersectionControl6.Controls = intersectionControls;
+            intersectionControl1.globalRoadUsers = roadUsers;
+            intersectionControl2.globalRoadUsers = roadUsers;
+            intersectionControl3.globalRoadUsers = roadUsers;
+            intersectionControl4.globalRoadUsers = roadUsers;
+            intersectionControl5.globalRoadUsers = roadUsers;
+            intersectionControl6.globalRoadUsers = roadUsers;
 
+            // Testing: start all trafficlights on red
+            intersectionControl1.GetTrafficLight(LaneId.WEST_INBOUND_ROAD_LEFT).SwitchTo(SignalState.STOP);
             progressTimer.Start();
             tmrTrafficlight.Start();
             UpdateLights();
@@ -62,24 +71,6 @@ namespace TrafficSimulator
             {
                 intersectionControl.UpdateIntersection();
             }
-            bool shouldMove = true;
-            foreach (RoadUser roadUser in roadUsers)
-            {
-                shouldMove = true;
-                foreach (RoadUser otherRoadUser in roadUsers)
-                {
-                    if (roadUser != otherRoadUser && roadUser.checkMove().IntersectsWith(otherRoadUser.BoundingBox))
-                    {
-                        shouldMove = false;
-                    }
-                }
-                if (shouldMove)
-                {
-                    roadUser.Move();
-                }
-            }
-            
-
         }
 
         private void intersectionControl_TrafficLightClick(object sender, TrafficLightClickEventArgs e)
@@ -123,7 +114,24 @@ namespace TrafficSimulator
                 }
             }
             int initSpeed = rand.Next(2, 5);
-            switch (rand.Next(0,5))
+            //random intersection > random weg > random auto
+            /*switch (rand.Next(0,6))
+            {
+                case 0:
+
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+            }*/
+            switch (rand.Next(0,4))
             {
                 case 0:
                     BlueCar bCar = new BlueCar(entryPoints[directionIndex], initSpeed);
@@ -142,12 +150,6 @@ namespace TrafficSimulator
                     roadUsers.Add(gCar);
                     intersectionControl1.AddRoadUser(gCar);
                     FaceCar(gCar, directionIndex);
-                    break;
-                case 3:
-                    RedSportsCar rsCar = new RedSportsCar(entryPoints[directionIndex], initSpeed);
-                    roadUsers.Add(rsCar);
-                    intersectionControl1.AddRoadUser(rsCar);
-                    FaceCar((rsCar), directionIndex);
                     break;
                 default:
                     break;

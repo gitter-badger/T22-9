@@ -61,6 +61,8 @@ namespace TrafficSimulatorUi
         private RotatedImageCache rotatedImageCache;
 
         public Boolean exiting = false;
+        public Boolean exited = false;
+        public Boolean remove = false;
         public Boolean hasDestination = false;
         public Directions destination;
         public int movesTillTurn;

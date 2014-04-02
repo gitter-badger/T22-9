@@ -56,27 +56,6 @@
             this.tmrTrafficlight.Interval = 7000;
             this.tmrTrafficlight.Tick += new System.EventHandler(this.tmrTrafficlight_Tick);
             // 
-            // intersectionControl4
-            // 
-            this.intersectionControl4.IntersectionType = TrafficSimulatorUi.IntersectionType.TYPE_3;
-            this.intersectionControl4.Location = new System.Drawing.Point(400, 400);
-            this.intersectionControl4.MaximumSize = new System.Drawing.Size(400, 400);
-            this.intersectionControl4.MinimumSize = new System.Drawing.Size(400, 400);
-            this.intersectionControl4.Name = "intersectionControl4";
-            this.intersectionControl4.Size = new System.Drawing.Size(400, 400);
-            this.intersectionControl4.TabIndex = 3;
-            this.intersectionControl4.TrafficLightClick += new System.EventHandler<TrafficSimulatorUi.TrafficLightClickEventArgs>(this.intersectionControl_TrafficLightClick);
-            // 
-            // intersectionControl3
-            // 
-            this.intersectionControl3.Location = new System.Drawing.Point(0, 400);
-            this.intersectionControl3.MaximumSize = new System.Drawing.Size(400, 400);
-            this.intersectionControl3.MinimumSize = new System.Drawing.Size(400, 400);
-            this.intersectionControl3.Name = "intersectionControl3";
-            this.intersectionControl3.Size = new System.Drawing.Size(400, 400);
-            this.intersectionControl3.TabIndex = 2;
-            this.intersectionControl3.TrafficLightClick += new System.EventHandler<TrafficSimulatorUi.TrafficLightClickEventArgs>(this.intersectionControl_TrafficLightClick);
-            // 
             // intersectionControl1
             // 
             this.intersectionControl1.IntersectionType = TrafficSimulatorUi.IntersectionType.TYPE_2;
@@ -98,6 +77,28 @@
             this.intersectionControl2.Size = new System.Drawing.Size(400, 400);
             this.intersectionControl2.TabIndex = 0;
             this.intersectionControl2.TrafficLightClick += new System.EventHandler<TrafficSimulatorUi.TrafficLightClickEventArgs>(this.intersectionControl_TrafficLightClick);
+            // 
+            // intersectionControl3
+            // 
+            this.intersectionControl3.IntersectionType = TrafficSimulatorUi.IntersectionType.TYPE_1;
+            this.intersectionControl3.Location = new System.Drawing.Point(0, 400);
+            this.intersectionControl3.MaximumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl3.MinimumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl3.Name = "intersectionControl3";
+            this.intersectionControl3.Size = new System.Drawing.Size(400, 400);
+            this.intersectionControl3.TabIndex = 2;
+            this.intersectionControl3.TrafficLightClick += new System.EventHandler<TrafficSimulatorUi.TrafficLightClickEventArgs>(this.intersectionControl_TrafficLightClick);
+            // 
+            // intersectionControl4
+            // 
+            this.intersectionControl4.IntersectionType = TrafficSimulatorUi.IntersectionType.TYPE_3;
+            this.intersectionControl4.Location = new System.Drawing.Point(400, 400);
+            this.intersectionControl4.MaximumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl4.MinimumSize = new System.Drawing.Size(400, 400);
+            this.intersectionControl4.Name = "intersectionControl4";
+            this.intersectionControl4.Size = new System.Drawing.Size(400, 400);
+            this.intersectionControl4.TabIndex = 3;
+            this.intersectionControl4.TrafficLightClick += new System.EventHandler<TrafficSimulatorUi.TrafficLightClickEventArgs>(this.intersectionControl_TrafficLightClick);
             // 
             // intersectionControl5
             // 
