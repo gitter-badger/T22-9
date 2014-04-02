@@ -21,10 +21,10 @@ namespace TrafficSimulatorUi.Intersection.Configurations
                 LaneId.WEST_PAVEMENT_LEFT, LaneId.WEST_PAVEMENT_RIGHT };
 
             LanesWithDriverTrafficLights = new List<LaneId>() {
-                LaneId.NORTH_INBOUND_ROAD_LEFT_AND_RIGHT,
-                LaneId.EAST_INBOUND_ROAD_LEFT_AND_RIGHT,
-                LaneId.SOUTH_INBOUND_ROAD_LEFT_AND_RIGHT,
-                LaneId.WEST_INBOUND_ROAD_LEFT_AND_RIGHT,
+                LaneId.NORTH_INBOUND_ROAD_LEFT,LaneId.NORTH_INBOUND_ROAD_RIGHT,
+                LaneId.EAST_INBOUND_ROAD_LEFT,LaneId.EAST_INBOUND_ROAD_RIGHT,
+                LaneId.SOUTH_INBOUND_ROAD_LEFT,LaneId.SOUTH_INBOUND_ROAD_RIGHT,
+                LaneId.WEST_INBOUND_ROAD_LEFT,LaneId.WEST_INBOUND_ROAD_RIGHT,
             };
 
             LanesWithRoadSensors = LanesWithDriverTrafficLights;
