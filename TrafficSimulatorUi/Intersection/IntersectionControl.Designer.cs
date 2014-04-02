@@ -40,10 +40,10 @@
             this.Size = new System.Drawing.Size(400, 400);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.IntersectionControl_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.IntersectionControl_MouseClick);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.IntersectionControl_MouseDoubleClick);
             this.ResumeLayout(false);
 
         }
-
         #endregion
     }
 }
