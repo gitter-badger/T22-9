@@ -261,13 +261,6 @@ namespace TrafficSimulatorUi
             return boundingBox2;
         }
 
-        public void UnMove()
-        {
-            location = prevLocation;
-            boundingBox = prevBoundingBox;
-        }
-
-
         /// <summary>
         /// Change the direction so that it faces the given point.
         /// </summary>
