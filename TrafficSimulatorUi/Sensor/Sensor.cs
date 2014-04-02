@@ -6,6 +6,7 @@ namespace TrafficSimulatorUi
     public abstract class Sensor : IntersectionItem
     {
         public List<Directions> possibleDirections;
+        public RoadUserMode sensorMode;
         /// <summary>
         /// Creates a new sensor.
         /// </summary>

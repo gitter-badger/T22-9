@@ -32,12 +32,12 @@
             this.progressTimer = new System.Windows.Forms.Timer(this.components);
             this.tmrSpawn = new System.Windows.Forms.Timer(this.components);
             this.tmrTrafficlight = new System.Windows.Forms.Timer(this.components);
-            this.intersectionControl4 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
-            this.intersectionControl3 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
-            this.intersectionControl1 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
-            this.intersectionControl2 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
-            this.intersectionControl5 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
-            this.intersectionControl6 = new TrafficSimulatorUi.IntersectionControl(intersectionControls);
+            this.intersectionControl4 = new TrafficSimulatorUi.IntersectionControl();
+            this.intersectionControl3 = new TrafficSimulatorUi.IntersectionControl();
+            this.intersectionControl1 = new TrafficSimulatorUi.IntersectionControl();
+            this.intersectionControl2 = new TrafficSimulatorUi.IntersectionControl();
+            this.intersectionControl5 = new TrafficSimulatorUi.IntersectionControl();
+            this.intersectionControl6 = new TrafficSimulatorUi.IntersectionControl();
             this.SuspendLayout();
             // 
             // progressTimer
