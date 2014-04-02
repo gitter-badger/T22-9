@@ -113,7 +113,8 @@ namespace TrafficSimulator
                     return;
                 }
             }
-            int initSpeed = rand.Next(2, 5);
+            double initSpeed = (rand.Next(2000, 3000)/1000);
+
             //random intersection > random weg > random auto
             /*switch (rand.Next(0,6))
             {
