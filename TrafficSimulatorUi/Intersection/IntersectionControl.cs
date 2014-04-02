@@ -71,7 +71,7 @@ namespace TrafficSimulatorUi
         public List<IntersectionControl> Controls = new List<IntersectionControl>();
 
         private int[] lanesLeftTurn = new int[] { 120, 148 };
-        private int[] lanesRightTurn = new int[] { 58, 86 };
+        private int[] lanesRightTurn = new int[] { 60, 88 };
 
         public IntersectionControl()
         {
@@ -584,7 +584,16 @@ namespace TrafficSimulatorUi
             }
         }
 
-        
+        private void IntersectionControl_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            for (int i = 0; i < roadUsers.Count; i++)
+            {
+                if (roadUsers[i].BoundingBox.Contains(e.Location))
+                {
+                    roadUsers.RemoveAt(i);
+                }
+            }
+        }
 
         /// <summary>
         /// Catches mouse clicks on the intersection, determines which road users, sensors or traffic lights are clicked
