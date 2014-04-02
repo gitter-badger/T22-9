@@ -72,6 +72,11 @@ namespace TrafficSimulatorUi
 
         private int[] lanesLeftTurn = new int[] { 120, 148 };
         private int[] lanesRightTurn = new int[] { 60, 88 };
+        private Point[] outgoingNorth = new Point[] { new Point(216, 0), new Point(242, 0) };
+        private Point[] outgoingEast = new Point[] { new Point(0, 215), new Point(0, 244) };
+        private Point[] outgoingSouth = new Point[] { new Point(156, 0), new Point(186, 0) };
+        private Point[] outgoingWest = new Point[] { new Point(0, 187), new Point(0, 158) };
+
 
         public IntersectionControl()
         {
@@ -280,6 +285,21 @@ namespace TrafficSimulatorUi
             if (!roadUser.hasDestination)
             {
                 roadUser.destination = curLane.Value.possibleDirections[rand.Next(0, curLane.Value.possibleDirections.Count)];
+                switch (roadUser.destination)
+                {
+                    case Directions.NORTH:
+                        roadUser.turningLane = outgoingNorth[rand.Next(0, 2)];
+                        break;
+                    case Directions.EAST:
+                        roadUser.turningLane = outgoingEast[rand.Next(0, 2)];
+                        break;
+                    case Directions.SOUTH:
+                        roadUser.turningLane = outgoingSouth[rand.Next(0, 2)];
+                        break;
+                    case Directions.WEST:
+                        roadUser.turningLane = outgoingWest[rand.Next(0, 2)];
+                        break;
+                }
                 int movesLeft = CalcMovesTillTurn(roadUser) / (int)roadUser.InitSpeed;
                 if (movesLeft > 0)
                 {
@@ -626,7 +646,7 @@ namespace TrafficSimulatorUi
             {
                 if (roadUser.BoundingBox.Contains(e.Location))
                 {
-                    Debug.WriteLine("dest: " + roadUser.destination.ToString() + " MovesTillTurn: " + roadUser.movesTillTurn + " bbox: " + roadUser.BoundingBox.X + ", " + roadUser.BoundingBox.Y + ", " + roadUser.BoundingBox.Width + ", " + roadUser.BoundingBox.Height);
+                    Debug.WriteLine("dest: " + roadUser.destination.ToString() + " lanecoor: " + roadUser.turningLane.X+", "+roadUser.turningLane.Y + " curloc: "+ roadUser.Location.X +", "+ roadUser.Location.Y+ " bbox: " + roadUser.BoundingBox.X + ", " + roadUser.BoundingBox.Y + ", " + roadUser.BoundingBox.Width + ", " + roadUser.BoundingBox.Height);
                 }
             }
             Debug.WriteLine("x:" + e.X + " y:" + e.Y);

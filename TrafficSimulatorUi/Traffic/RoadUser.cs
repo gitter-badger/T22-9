@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Diagnostics;
+using System.Linq;
 
 namespace TrafficSimulatorUi
 {
@@ -68,6 +69,7 @@ namespace TrafficSimulatorUi
         public Directions destination;
         public Directions origin;
         public int movesTillTurn;
+        public Point turningLane;
 
         private Point prevLocation;
         private Rectangle prevBoundingBox;
@@ -221,13 +223,18 @@ namespace TrafficSimulatorUi
         /// </summary>
         public void Move()
         {
+            Boolean turn = false;
             if (hasDestination && speed > 0)
             {
-                if (movesTillTurn > 0)
+                if (turningLane.X == 0 && Enumerable.Range(turningLane.Y - 3, turningLane.Y + 3).Contains((int)y))
                 {
-                    movesTillTurn--;
+                    turn = true;
                 }
-                else
+                else if (turningLane.Y == 0 && Enumerable.Range(turningLane.X - 3, turningLane.X + 3).Contains((int)x))
+                {
+                    turn = true;
+                }
+                if (turn)
                 {
                     switch (destination)
                     {
@@ -247,6 +254,14 @@ namespace TrafficSimulatorUi
                     }
                     hasDestination = false;
                 }
+                /*if (movesTillTurn > 0)
+                {
+                    movesTillTurn--;
+                }
+                else
+                {
+                    
+                }*/
             }
             prevBoundingBox = boundingBox;
             prevLocation = location;
