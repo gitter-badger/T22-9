@@ -119,7 +119,6 @@ namespace TrafficSimulator
             /*switch (rand.Next(0,6))
             {
                 case 0:
-
                     break;
                 case 1:
                     break;

@@ -27,6 +27,8 @@ namespace TrafficSimulatorUi
         /// </summary>
         public event EventHandler<SensorClickEventArgs> SensorClick;
 
+        public event EventHandler<EventArgs> RoaduserClick;
+
         /// <summary>
         /// The default intersection type for new instances.
         /// </summary>
@@ -580,6 +582,8 @@ namespace TrafficSimulatorUi
             }
         }
 
+        
+
         /// <summary>
         /// Catches mouse clicks on the intersection, determines which road users, sensors or traffic lights are clicked
         /// and sends events for the clicked items.
@@ -610,8 +614,7 @@ namespace TrafficSimulatorUi
             {
                 if (roadUser.BoundingBox.Contains(e.Location))
                 {
-                    // You can add your own code here to send events for a clicked road user
-                    Debug.WriteLine("Clicked roaduser");
+                    Debug.WriteLine("dest: " + roadUser.destination.ToString() + " MovesTillTurn: " + roadUser.movesTillTurn + " bbox: " + roadUser.BoundingBox.X + ", " + roadUser.BoundingBox.Y + ", " + roadUser.BoundingBox.Width + ", " + roadUser.BoundingBox.Height);
                 }
             }
         }

@@ -278,6 +278,7 @@ namespace TrafficSimulatorUi
             Direction = angle;
         }
 
+
         /// <summary>
         /// Draws the road user to the drawing surface.
         /// </summary>
